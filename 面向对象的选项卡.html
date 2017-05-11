@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			*{
+				margin: 0;
+				padding: 0;
+				list-style: none;
+			}
+			#box,#box2{
+				width: 300px;
+				height: 200px;
+				margin:10px auto;
+				border: 1px solid #000;
+			}
+			ul li{
+				float: left;
+				width: 100px;
+				height: 30px;
+				line-height: 30px;
+				background: red;
+				color: #fff;
+				text-align: center;
+			}
+			ul li.active{
+				background: #fff;
+				color: red;
+			}
+			#box div,#box2 div{
+				display: none;
+				font-size: 40px;
+			}
+			#box div.active,#box2 div.active{
+				display: block;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="box">
+			<ul>
+				<li class="active">11</li>
+				<li>22</li>
+				<li>33</li>
+			</ul>
+			<div class="active">111111111</div>
+			<div>222222222222</div>
+			<div>33333333333</div>
+		</div>
+		<div id="box2">
+			<ul>
+				<li class="active">11</li>
+				<li>22</li>
+				<li>33</li>
+			</ul>
+			<div class="active">111111111</div>
+			<div>222222222222</div>
+			<div>33333333333</div>
+		</div>
+		
+		
+		<input type="button" id="btn1" value="第一个关" />
+		<input type="button" id="btn2" value="第二个播放" />
+		<input type="button" id="btn3" value="全开" />
+		<input type="button" id="btn4" value="取反" />
+		<script type="text/javascript">
+//			面向过程
+//			var box=document.getElementById('box');
+//			var lis=document.getElementsByTagName('li');
+//			var divs=box.getElementsByTagName('div');
+//			var prev=0;
+//			for(let i=0; i<lis.length; i++){
+//				lis[i].onclick=function(){
+//					lis[prev].className='';
+//					divs[prev].className='';
+//					this.className='active';
+//					divs[i].className='active';
+//					prev=i;
+//				}
+//			}
+
+//          面向对象
+
+			function Tab(id){
+				this.box=document.getElementById(id);
+				this.lis=this.box.getElementsByTagName('li');
+				this.divs=this.box.getElementsByTagName('div');
+				this.prev=0;
+				this.timer=null;
+				this.num=0;
+			}
+			Tab.prototype.init=function(){
+				let _this=this;
+				for(let i=0; i<this.lis.length; i++){
+					this.lis[i].onclick=function(){
+						_this.change(i);
+					}
+				}
+			}
+			
+			Tab.prototype.change=function(i){
+					this.lis[this.prev].className='';
+					this.divs[this.prev].className='';
+					this.lis[i].className='active';
+					this.divs[i].className='active';
+					this.prev=i;
+				}
+			Tab.prototype.autoPlay=function(){
+				var _this=this;
+				clearInterval(this.timer);
+				this.timer=setInterval(function(){
+					_this.num++;
+					_this.change(_this.num%=3);
+				},1000)
+			}
+			Tab.prototype.stop=function(){
+				clearInterval(this.timer);
+				this.timer=null;
+			}
+			Tab.prototype.isPlay=function(){
+				return !!this.num;
+			}
+			
+			var t1 = new Tab('box');
+			t1.init();
+			t1.autoPlay();
+			var btn1=document.getElementById('btn1');
+			btn1.onclick=function(){
+				t1.stop();
+			}
+			
+			var t2 = new Tab('box2');
+			t2.init();
+			var btn2=document.getElementById('btn2');
+			btn2.onclick=function(){
+				t2.autoPlay();
+			}
+			var btn3=document.getElementById('btn3');
+			btn3.onclick=function(){
+				t1.autoPlay();
+				t2.autoPlay();
+			}
+			var btn4=document.getElementById('btn4');
+			btn4.onclick=function(){
+				if(t1.isPlay()){
+					t1.stop();
+				}else{
+					t1.autoPlay();
+				}
+				if(t2.isPlay()){
+					t2.stop();
+				}else{
+					t2.autoPlay();
+				}
+			}
+			
+		</script>
+	</body>
+</html>

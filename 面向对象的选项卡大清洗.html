@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			*{
+				margin: 0;
+				padding: 0;
+				list-style: none;
+			}
+			#box{
+				width: 300px;
+				height: 300px;
+				margin:100px auto;
+				border: 1px solid #000;
+			}
+			ul li{
+				float: left;
+				width: 100px;
+				height: 30px;
+				line-height: 30px;
+				background: red;
+				color: #fff;
+				text-align: center;
+			}
+			ul li.active{
+				background: #fff;
+				color: red;
+			}
+			#box div{
+				display: none;
+				font-size: 40px;
+			}
+			#box div.active{
+				display: block;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="box">
+			<ul>
+				<li class="active">11</li>
+				<li>22</li>
+				<li>33</li>
+			</ul>
+			<div class="active">111111111</div>
+			<div>222222222222</div>
+			<div>33333333333</div>
+		</div>
+		<script type="text/javascript">
+//			面向过程
+//			var box=document.getElementById('box');
+//			var lis=document.getElementsByTagName('li');
+//			var divs=box.getElementsByTagName('div');
+//			for(let i=0; i<lis.length; i++){
+//				lis[i].onclick=function(){
+//					for(let i=0;i<lis.length; i++){
+//						lis[i].className='';
+//						divs[i].className='';
+//					}
+//					this.className='active';
+//					divs[i].className='active';
+//				}
+//			}
+
+//          面向对象
+			function Tab(box){
+				this.box=document.getElementById(box);
+				this.lis=this.box.getElementsByTagName('li');
+				this.divs=this.box.getElementsByTagName('div');
+			}
+			
+			Tab.prototype.init=function(Event){
+				var _this=this;
+				for(let i=0; i<this.lis.length; i++){
+					this.lis[i][Event]=function(){
+						_this.change(this,i);
+					}
+				}
+			}
+			
+			
+			Tab.prototype.change=function(that,i){
+					for(let i=0;i<this.lis.length; i++){
+						this.lis[i].className=this.divs[i].className='';
+					}
+					that.className='active';
+					this.divs[i].className='active';
+				}
+				var t=new Tab('box');
+				t.init('onmouseover');
+		</script>
+	</body>
+</html>
