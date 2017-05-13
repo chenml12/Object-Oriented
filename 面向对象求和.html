@@ -18,6 +18,20 @@
 		}
 		console.log(arr.sum());
 		*/
+		
+		
+//		原型方法
+		var arr=[1,2,3,4,5];
+		var arr2=[1,2,3];
+		Array.prototype.sum=function(){
+			var result=0;
+			for(var i=0;i<this.length; i++){
+				result +=this[i]
+			}
+			return result;
+		}
+		console.log(arr.sum());
+		console.log(arr2.sum());
 	</script>
 </body>
 </html>
