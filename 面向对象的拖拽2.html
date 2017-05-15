@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			div{
+				width: 100px;
+				height: 100px;
+				background: red;
+				position: absolute;
+			}
+			div:first-child{
+				background: blue;
+				position: absolute;
+				top: 200px;
+				left: 200px;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="div"></div>
+		<script type="text/javascript">
+			function Drag(id){
+				this.box=document.getElementById(id);
+				this.disX=0;
+				this.disY=0;
+			}
+			Drag.prototype.init=function(){
+				const _this=this;
+				this.box.addEventListener('mousedown',function(ev){
+					//this 元素
+					_this.down(ev);
+				});
+			}
+			Drag.prototype.down=function(ev){
+				this.disX=ev.pageX-this.box.offsetLeft;
+				this.disY=ev.pageY-this.box.offsetTop;
+				const _this=this;
+				const fnMove = function(ev){
+					_this.move(ev);
+				}
+				const fnUp = function(){
+					_this.up(ev,fnMove,fnUp);
+				}
+				document.addEventListener('mousemove',fnMove);//this.move
+				document.addEventListener('mouseup',fnUp);
+			}
+			Drag.prototype.move=function(ev){
+				this.box.style.left = ev.pageX - this.disX + 'px'; 
+				this.box.style.top = ev.pageY - this.disY + 'px';
+			}
+			Drag.prototype.up=function(ev,move,up){
+				document.removeEventListener('mousemove',move);
+				document.removeEventListener('mouseup',up);
+			}
+			var d=new Drag('div');
+			d.init();
+		</script>
+	</body>
+</html>
