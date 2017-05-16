@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<title>放大镜效果</title>
+	<style type="text/css">
+		*{
+			margin: 0;
+			padding: 0;
+		}
+		#box{
+			width: 180px;
+			height: 180px;
+			overflow: hidden;
+			position: relative;
+			margin: 50px;
+		}
+		#box span{
+			width: 100px;
+			height: 100px;
+			background: yellow;
+			opacity: 0.5;
+			filter: alpha(opacity=50);
+			position: absolute;
+			top: 0;
+			left: 0;
+			display: none;
+		}
+		#box2{
+			width: 500px;
+			height: 500px;
+			position: absolute;
+			top: 50px;
+			left: 250px;
+			overflow: hidden;
+		}
+		#box2 img{
+			position: absolute;
+			left: 0px;
+			top: 0;
+		}
+		
+	</style>
+</head>
+<body>
+	<div id="box">
+		<img src="b2.jpg"/>
+		<span></span>
+	</div>
+	<div id="box2">
+		<img id="img2" src="b1.jpg"/>
+	</div>
+	<script type="text/javascript">
+		var box=document.getElementById('box');
+		var box2=document.getElementById('box2');
+		var span=box.getElementsByTagName('span')[0];
+		var img2=document.getElementById('img2')
+		box.onmouseenter=function(){
+			span.style.display='block';
+		}
+		box.onmouseleave=function(){
+			span.style.display='none';
+			box2.style.display='none';
+		}
+		box.onmousemove=function(ev){
+			var l=ev.clientX - box.offsetLeft - span.offsetWidth/2;
+			var t=ev.clientY - box.offsetTop - span.offsetWidth/2;
+			if(l<0){
+				l=0;
+			}else if(l>box.offsetWidth-span.offsetWidth){
+				l=box.offsetWidth-span.offsetWidth;
+			}
+			if(t<0){
+				t=0;
+			}else if(t>box.offsetHeight-span.offsetHeight){
+				t=box.offsetHeight-span.offsetHeight;
+			}
+			span.style.left=l+'px';
+			span.style.top=t+'px';
+			var scaleX=l/(box.offsetWidth-span.offsetWidth);
+			var scaleY=t/(box.offsetHeight-span.offsetHeight);
+			console.log(scaleX*(img2.offsetWidth-box2.offsetWidth))
+			img2.style.left=-scaleX*(img2.offsetWidth-box2.offsetWidth)+'px';
+			img2.style.top=-scaleY*(img2.offsetHeight-box2.offsetHeight)+'px';
+		}
+	</script>
+</body>
+</html>
