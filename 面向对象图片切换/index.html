@@ -429,13 +429,45 @@
     	this.img.src = this.arrImgs[this.n];
     	this.txt.innerHTML = this.arrTxt[this.n];
     	const _this = this;
+    	this.shx.onclick=function(){
+    		_this.sxFn();
+    	}
+    	this.xh.onclick=function(){
+    		_this.xhFn();
+    	}
     	this.next.onclick=function(){
     		_this.nextFn();
     	}
     	this.prev.onclick=function(){
     		_this.prevFn();
     	}
+    	this.sure.onclick = this.close.onclick = function(){
+    		_this.sureFn();
+    	}
 	}
+	Switch.prototype.xhFn=function(){
+		if(this.onOff){
+			//高亮
+    		this.xh.className = 'active';
+    		this.shx.className = '';
+    		//文字
+    		this.modelTxt.innerHTML = '图片可以从最后一张跳转到第一张循环切换';
+    		//模式
+    		this.mode = true;
+		}
+	}
+	Switch.prototype.sxFn=function(){
+		if(this.onOff){
+			//高亮
+    		this.shx.className = 'active';
+    		this.xh.className = '';
+    		//文字
+    		this.modelTxt.innerHTML = '图片可以从最后一张跳转到第一张顺序切换';
+    		//模式
+    		this.mode = false;
+		}
+	}
+	
 //	下一张
 	Switch.prototype.nextFn=function(){
 		if(this.onOff){
@@ -480,6 +512,10 @@
 	    	this.img.src = this.arrImgs[this.n];
 	    	this.txt.innerHTML = this.arrTxt[this.n];
 		}
+	}
+	Switch.prototype.sureFn=function(){
+		this.tanBox.style.display = '';
+		this.onOff = true;
 	}
 	var obj=new Switch();
 	obj.init();
